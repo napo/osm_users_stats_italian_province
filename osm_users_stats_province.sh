@@ -19,26 +19,26 @@ function calculate {
 	basename $f .osm.zip
 	./fast_complete_poly_filter.pl `basename $f .zip` `basename $f .osm.zip`.poly $osm_name.osm
 	spatialite_osm_raw -o $osm_name.osm -d $db
-	spatialite -silent $db < poly.sql
-	spatialite -silent $db < init.sql
+	spatialite $db < poly.sql
+	spatialite $db < init.sql
 	echo $db
 	#spatialite -header -csv -silent $db < calculate.sql > $utenti
 	#t=`cat $utenti  | wc -l`
 	#tot_users=`echo $t-1 | bc`
-	nusers=`spatialite -silent $db "select count(*) from activity_users"`
-	nusers30=`spatialite -silent $db "select count(*) from activity_users where fromtoday <= 30;"`
-	nusers90=`spatialite -silent $db "select count(*) from activity_users where fromtoday <= 90;"`
-	nusers180=`spatialite -silent $db "select count(*) from activity_users where fromtoday <= 180;"`
-	nusers360=`spatialite -silent $db "select count(*) from activity_users where fromtoday <= 360;"`
-	nnodes=`spatialite -silent $db "select count(*) from osm_nodes;"`
-	nways=`spatialite -silent $db "select count(*) from osm_ways;"`
-	nrelations=`spatialite -silent $db "select count(*) from osm_relations;"`
-	area=`spatialite -silent $db "select round(area(transform(geom,23032))) from poly;"`
-	tags_ways=`spatialite -silent $db "select count(*) from osm_way_tags;"`
-	tags_nodes=`spatialite -silent $db "select count(*) from osm_node_tags;"`
-	tags_rel=`spatialite -silent $db "select count(*) from osm_relation_tags;"`
-	oldestedit=`spatialite -silent $db "select min(firstedit) from activity_users;"`
-	lastedit=`spatialite -silent $db "select max(lastedit) from activity_users;"`
+	nusers=`spatialite $db "select count(*) from activity_users"`
+	nusers30=`spatialite $db "select count(*) from activity_users where fromtoday <= 30;"`
+	nusers90=`spatialite $db "select count(*) from activity_users where fromtoday <= 90;"`
+	nusers180=`spatialite $db "select count(*) from activity_users where fromtoday <= 180;"`
+	nusers360=`spatialite $db "select count(*) from activity_users where fromtoday <= 360;"`
+	nnodes=`spatialite $db "select count(*) from osm_nodes;"`
+	nways=`spatialite $db "select count(*) from osm_ways;"`
+	nrelations=`spatialite $db "select count(*) from osm_relations;"`
+	area=`spatialite $db "select round(area(transform(geom,23032))) from poly;"`
+	tags_ways=`spatialite $db "select count(*) from osm_way_tags;"`
+	tags_nodes=`spatialite $db "select count(*) from osm_node_tags;"`
+	tags_rel=`spatialite $db "select count(*) from osm_relation_tags;"`
+	oldestedit=`spatialite $db "select min(firstedit) from activity_users;"`
+	lastedit=`spatialite $db "select max(lastedit) from activity_users;"`
 	oldestedit=${oldestedit:0:10}
 	lastedit=${lastedit:0:10}
 	ntags=`echo $tags_ways + $tags_nodes | bc`
